@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.yellow-de {
+  @apply bg-gradient-to-t from-yellow-2 to-yellow-0 hover:opacity-60 hover:ring-2 ring-yellow-2 focus:ring-2 outline-none transition-all;
+}
+
+.h1 {
+  font-size: 40px;
+}
+.h2 {
+  font-size: 32px;
+}
+.h3 {
+  font-size: 24px;
+}
+.h4 {
+  font-size: 16px;
+}
+.h5 {
+  font-size: 14px;
+}
+.h6 {
+  font-size: 12px;
+}
+p {
+  font-size: 16px;
+}
+a {
+  font-size: 16px;
+}
+
+.black-de {
+  @apply bg-gradient-to-t from-[#E5E3DD] to-transparent hover:from-[#E5E3DD] hover:bg-[#ddd] transition-all hover:ring-2 focus:ring-2 outline-none ring-gray-300;
+}
+
+.history-item {
+  @apply mb-1 block h3;
+}
+
+.action {
+  @apply hover:text-yellow-2 transition-colors h3;
+}
+
+.calcButton {
+  @apply min-w-[72px] min-h-[72px] shadow-md rounded-full;
+}

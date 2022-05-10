@@ -1,0 +1,239 @@
+import { Backspace, Clock, Repeat } from "phosphor-react";
+import { useState } from "react";
+
+export function App() {
+  const buttons = [
+    {
+      label: "C",
+      isAction: true,
+    },
+    {
+      label: "(",
+      isAction: true,
+    },
+    {
+      label: ")",
+      isAction: true,
+    },
+    {
+      label: "÷",
+      isAction: true,
+    },
+    {
+      label: "√",
+      isAction: true,
+    },
+    {
+      label: "%",
+      isAction: true,
+    },
+    {
+      label: "±",
+      isAction: true,
+    },
+    {
+      label: "*",
+      isAction: true,
+    },
+    {
+      label: "7",
+    },
+    {
+      label: "8",
+    },
+    {
+      label: "9",
+    },
+    {
+      label: "-",
+      isAction: true,
+    },
+    {
+      label: "4",
+    },
+    {
+      label: "5",
+    },
+    {
+      label: "6",
+    },
+    {
+      label: "+",
+      isAction: true,
+    },
+    {
+      label: "1",
+    },
+    {
+      label: "2",
+    },
+    {
+      label: "3",
+    },
+    {
+      label: "=",
+      fullHeight: true,
+      isAction: true,
+    },
+    {
+      label: "0",
+      full: true,
+    },
+    {
+      label: ".",
+    },
+  ];
+
+  const [expression, setExpression] = useState("0");
+  const [result, setResult] = useState("");
+  const [history, setHistory] = useState<any>([]);
+
+  const firstChar = (str: string) => {
+    return str[0];
+  };
+  const lastChar = (str: string) => {
+    return str[str.length - 1];
+  };
+
+  const isAction = (str: string) => {
+    const actions = buttons.filter((button) => button.isAction);
+    return actions.find((button) => button.label === str);
+  };
+  const calculate = (calc: string) => {
+    try {
+      const result = eval(calc);
+      if (result) {
+        setHistory([...history, calc]);
+        return result;
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      console.log("deu erro");
+      return 0;
+    }
+  };
+
+  const handleButtonClick = (button: any) => {
+    if (button.isAction) {
+      if (button.label === "=") {
+        const result = calculate(expression);
+        setResult(result);
+        setExpression("");
+        return;
+      } else if (button.label === "C") {
+        setExpression("0");
+        setResult("");
+        return;
+      } else if (button.label === "√") {
+        const result = calculate(expression);
+        setResult(result);
+        setExpression(result);
+        return;
+      } else if (button.label === "÷") {
+        const result = calculate(expression);
+        setResult(result);
+        setExpression(result);
+        return;
+      }
+      setExpression(expression + button.label);
+    } else {
+      setExpression(expression + button.label);
+    }
+  };
+
+  return (
+    <>
+      <div className="min-w-full w-full min-h-[100vh] bg-dark-50 flex items-center justify-center">
+        <div id="calculator" className=" bg-[#fff] rounded-xl p-2 px-4">
+          <div
+            id="display"
+            className="flex flex-col items-end justify-center text-right text-dark-200"
+          >
+            <div id="history" className="w-full text-right pt-2">
+              {history
+                .map((item: any) => item)
+                .reverse()
+                .map((item: any, index: number) => {
+                  if (index > 3) {
+                    return null;
+                  }
+                  return (
+                    <>
+                      <div id="history-item">
+                        <div key={index}>{item}</div>
+                      </div>
+                    </>
+                  );
+                })
+                .reverse()}
+              <div id="history-item" className="py-1 text-dark-900">
+                {expression ? expression : 0}
+              </div>
+              <div id="result" className="text-dark-700 text-[1.8rem]">
+                <span className="float-left"> = </span>
+
+                <span className="max-w-[10ch] float-right block overflow-ellipsis overflow-hidden">
+                  {`${result}`}
+                </span>
+              </div>
+            </div>
+
+            <div
+              id="icons"
+              className="flex flex-row justify-between items-center text-dark-900  pt-5 pb-2 w-full"
+            >
+              <button
+                className="hover:text-primary-900 transition-colors"
+                onClick={() => setHistory([])}
+              >
+                <Clock weight="bold" />
+              </button>
+              <button
+                className="hover:text-primary-900 transition-colors"
+                onClick={() =>
+                  setExpression(
+                    expression
+                      .toString()
+                      .substring(0, expression.toString().length - 1)
+                  )
+                }
+              >
+                <Backspace weight="fill" />
+              </button>
+            </div>
+            <hr className="border-dark-50 opacity-30 w-5/6 m-auto" />
+          </div>
+          <div id="calculator-body" className=" pt-4 ">
+            <div
+              id="numbers"
+              className="w-full grid grid-cols-4 grid-rows-6 gap-4"
+              style={{
+                gridTemplateColumns: "repeat(3,1fr)",
+                gridTemplateRows: "repeat(6,64px)",
+              }}
+            >
+              {buttons.map((button) => (
+                <button
+                  id={button.label.toString()}
+                  onClick={() => handleButtonClick(button)}
+                  style={{
+                    gridRow: button.fullHeight ? "5 / 7" : "",
+                    gridColumn: button.fullHeight
+                      ? "5 / 4"
+                      : button.full
+                      ? "1 / 3"
+                      : "",
+                  }}
+                  className={button.isAction ? "action" : "number"}
+                >
+                  {button.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

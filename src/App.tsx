@@ -205,7 +205,7 @@ export function App() {
                 <>
                   <div
                     id="history-show"
-                    className="w-[17.25rem] overflow-y-scroll p-3 scrollbar-track-transparent scrollbar-thumb-yellow-0 scrollbar-thin h-full text-right self-start text-black-3  animate-slideLeft"
+                    className="w-[17.25rem] overflow-y-scroll p-3 scrollbar-track-transparent scrollbar-thumb-yellow-0 scrollbar-thin h-full text-right self-start text-black-3 animate-slideLeft"
                   >
                     {history.map((item, index) => {
                       if (index >= 30) {
@@ -227,7 +227,7 @@ export function App() {
                   </div>
                 </>
               ) : (
-                <div className="flex flex-row h-full flex-wrap items-center w-[17.25rem] gap-[30px] animate-slideLeft">
+                <div className="flex flex-row h-full flex-wrap items-center w-[17.25rem] gap-[30px]">
                   {leftButtons.map((button) => (
                     <button
                       key={button.label}
